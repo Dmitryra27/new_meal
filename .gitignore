@@ -16,6 +16,10 @@ migrate_working_dir/
 *.iws
 .idea/
 
+#keys
+/arj
+arj
+**/arj
 .env
 
 # The .vscode folder contains launch configuration and tasks you configure in

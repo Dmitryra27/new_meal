@@ -24,6 +24,8 @@ arj
 .env
 *.env
 */keys.dart
+*/get_api_key_web.dart
+*/secure_storage.dart
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line

@@ -52,4 +52,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-/KNOLEGE.md
+
+# Admin old pages and functions - don't used
+*/KNOLEGE.md
+**/KNOLEGE.md
+**/old_functions
+**/old_pages

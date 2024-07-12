@@ -39,7 +39,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Изменение данных пользователя '),
       ),
       body: user == null
           ? const Center(child: Text('Please login to view your profile'))
@@ -91,7 +91,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _updateUserData,
-                child: const Text('Update Profile'),
+                child: const Text('Обновить профиль'),
               ),
               const SizedBox(height: 24),
           ElevatedButton(

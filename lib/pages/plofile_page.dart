@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:new_meal/pages/profile_update_page.dart';
 
+import 'food_page.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -44,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Данные пользователя'),
       ),
       body: user == null
           ? const Center(child: Text('Please login to view your profile'))
@@ -55,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   const Text(
                     'Личные данные ',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     'Имя: $_name',
@@ -84,7 +86,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       );
                     },
-                    child: const Text('Перейти к профилю пользователя'),
+                    child: const Text('Изменить данные пользователя'),
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Переход на другую страницу
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FoodPage(), // Замените SecondPage на имя вашей целевой страницы
+                        ),
+                      );
+                    },
+                    child: const Text('Перейти На страницу Блюд'),
                   ),
                   const SizedBox(height: 24),
                 ],

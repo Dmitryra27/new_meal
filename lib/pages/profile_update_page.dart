@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../old_pages/profile_page_old_not_work.dart';
 import 'food_page.dart';
 class ProfileUpdatePage extends StatefulWidget {
   const ProfileUpdatePage({Key? key}) : super(key: key);
@@ -99,7 +100,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ProfileUpdatePage(), // Замените SecondPage на имя вашей целевой страницы
+                  builder: (context) => const ProfilePage(), // Замените SecondPage на имя вашей целевой страницы
                 ),
               );
             },

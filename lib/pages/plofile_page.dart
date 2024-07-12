@@ -8,10 +8,11 @@ class ProfilePage extends StatefulWidget {
 }
 class _ProfilePageState extends State<ProfilePage> {
   final user = FirebaseAuth.instance.currentUser;
-  final _formKey = GlobalKey<FormState>();
+  //final _formKey = GlobalKey<FormState>();
   String _name = '';
   String _email = '';
   String _phoneNumber = '';
+
   @override
   void initState() {
     super.initState();
@@ -22,23 +23,15 @@ class _ProfilePageState extends State<ProfilePage> {
     final doc = await docRef.get();
     if (doc.exists) {
       setState(() {
-        _name = doc.data()!['name'];
-        _email = doc.data()!['email'];
-        _phoneNumber = doc.data()!['phoneNumber'];
+        _name = doc.data()!['name'] ?? '555';
+        _email = doc.data()!['email'] ?? '55@55.55';
+        _phoneNumber = doc.data()!['phoneNumber'] ?? '55555';
       });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('User document not found')));
     }
   }
-  Future<void> _updateUserData() async {
-    if (_formKey.currentState!.validate()) {
-      final docRef = FirebaseFirestore.instance.collection('users').doc(user!.uid);
-      await docRef.set({
-        'name': _name,
-        'email': _email,
-        'phoneNumber': _phoneNumber,
-      });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile updated successfully')));
-    }
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,58 +42,33 @@ class _ProfilePageState extends State<ProfilePage> {
           ? const Center(child: Text('Please login to view your profile'))
           : Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                initialValue: _name,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _name = value!,
+              const Text(
+                'Личные данные ',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                initialValue: _email,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  if (!value.contains('@')) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _email = value!,
+             Text(
+                'Имя: $_name',
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                initialValue: _phoneNumber,
-                decoration: const InputDecoration(labelText: 'Phone Number'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _phoneNumber = value!,
+              const SizedBox(height: 8),
+              Text(
+                'Email: $_email',
+                style: const TextStyle(fontSize: 16),
               ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _updateUserData,
-                child: const Text('Update Profile'),
+              const SizedBox(height: 8),
+              Text(
+                'Phone: $_phoneNumber',
+                style: const TextStyle(fontSize: 16),
               ),
+              const SizedBox(height: 8),
             ],
           ),
         ),
-      ),
+
     );
   }
 }

@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'food_page.dart';
-import './plofile_page.dart';
+import '../pages/food_page.dart';
+import 'profile_page.dart';
 
 class ProfileUpdatePage extends StatefulWidget {
   const ProfileUpdatePage({Key? key}) : super(key: key);
@@ -19,9 +19,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   String _email = '22@22.22';
   String _phoneNumber = '222222';
 
-  //String _name2 = '';
-  // String _email2 = '';
-  //String _phoneNumber2 = '';
+
   @override
   void initState() {
     super.initState();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:new_meal/auth/registration_page.dart';
 
-import '../pages/plofile_page.dart';
+import 'profile_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -22,10 +22,7 @@ class _LoginPageState extends State<LoginPage> {
       );
       // Navigate to the next page upon successful sign in
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  ProfilePage()));
+          context, MaterialPageRoute(builder: (context) => ProfilePage()));
     } catch (e) {
       // Handle sign in errors
       showDialog(
@@ -67,29 +64,32 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-                padding: EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                )),
-            Padding(
-                padding: EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                )),
-            Padding(
-                padding: EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: _signIn,
-                  child: Text('Войти'),
-                )),
-          ],
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                  )),
+              Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(labelText: 'Password'),
+                    obscureText: true,
+                  )),
+              Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: _signIn,
+                    child: Text('Войти'),
+                  )),
+            ],
+          ),
         ),
       ),
     );

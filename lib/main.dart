@@ -21,8 +21,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Люблю вкусно поесть !',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF3949AB), // Primary color - заголовок страниц
+          brightness: Brightness.light,
+          secondary: Colors.green,
+          error: Colors.red,
+        ),
+        // Дополнительные стили
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF2196F3), // Blue color -
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color(0xFFFBC02D), // Yellow color
+          ),
+        ),
       ),
       debugShowCheckedModeBanner: false,
 

@@ -14,6 +14,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final user = FirebaseAuth.instance.currentUser;
+  //final _firestore = FirebaseFirestore.instance;
+  //DocumentReference? _userDoc;
 
   //final _formKey = GlobalKey<FormState>();
   String _name = '';
@@ -24,6 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     _getUserData();
+    _listenToUserData();
   }
 
   Future<void> _getUserData() async {
@@ -32,14 +35,31 @@ class _ProfilePageState extends State<ProfilePage> {
     final doc = await docRef.get();
     if (doc.exists) {
       setState(() {
-        _name = doc.data()!['name'] ?? '555';
-        _email = doc.data()!['email'] ?? '55@55.55';
-        _phoneNumber = doc.data()!['phoneNumber'] ?? '55555';
+        _name = doc.data()!['name'];
+        _email = doc.data()!['email'];
+        _phoneNumber = doc.data()!['phoneNumber'];
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('User document not found')));
     }
+  }
+
+  void _listenToUserData() {
+    //_userDoc = _firestore.collection('users').doc(user!.uid);
+    final docRef =
+    FirebaseFirestore.instance.collection('users').doc(user!.uid);
+    //if (docRef != null) {
+      docRef.snapshots().listen((snapshot) {
+        if (snapshot.exists) {
+          setState(() {
+            _name = snapshot.data()!['name'];
+            _email = snapshot.data()!['email'] ;
+            _phoneNumber = snapshot.data()!['phoneNumber'] ;
+          });
+        }
+      });
+    //}
   }
 
   @override

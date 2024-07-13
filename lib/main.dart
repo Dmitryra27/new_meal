@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF3949AB), // Primary color - заголовок страниц
           brightness: Brightness.light,
+          primary: Colors.blue,
           secondary: Colors.green,
           error: Colors.red,
         ),

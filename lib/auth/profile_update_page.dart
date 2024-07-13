@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/food_page.dart';
-import 'plofile_page.dart';
+import 'profile_page.dart';
 
 class ProfileUpdatePage extends StatefulWidget {
   const ProfileUpdatePage({Key? key}) : super(key: key);

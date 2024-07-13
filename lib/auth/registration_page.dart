@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'plofile_page.dart';
+import 'profile_page.dart';
 
 // final appState = Provider.of<AppState>(context);
 class RegistrationPage extends StatefulWidget {
@@ -85,7 +85,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 const SizedBox(height: 20, width:400),
                 ElevatedButton(
                   onPressed: registerUser,
-                  child: Text('Register'),
+                  child: const Text('Register'),
                 ),
               ],
             ),

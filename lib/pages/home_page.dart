@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:new_meal/auth/plofile_page.dart';
+import 'package:new_meal/auth/profile_page.dart';
 import '../auth/login_page.dart';
 
 //Попадаем с Main, проверяем авторизацию,

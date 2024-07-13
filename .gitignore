@@ -16,7 +16,16 @@ migrate_working_dir/
 *.iws
 .idea/
 
+#keys
+/arj
+arj
+**/arj
+## keys
 .env
+*.env
+*/keys.dart
+*/get_api_key_web.dart
+*/secure_storage.dart
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -43,4 +52,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-/KNOLEGE.md
+
+# Admin old pages and functions - don't used
+*/KNOLEGE.md
+**/KNOLEGE.md
+**/old_functions
+**/old_pages

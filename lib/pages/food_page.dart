@@ -15,7 +15,7 @@ class FoodPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Выберите блюда",
+            "Выберите, что вы хотите сьесть !",
             style: TextStyle(fontSize: 30, color: Colors.green),
           ),
           ElevatedButton(
@@ -27,12 +27,12 @@ class FoodPage extends StatelessWidget {
                 ),
               );
             },
-            child: Text(
-              "Завтрак",
+            child: const Text(
+              "Завтраки",
               style: TextStyle(fontSize: 20),
             ),
           ),
-          SizedBox(height: 30,),
+          const SizedBox(height: 30,),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
@@ -42,12 +42,12 @@ class FoodPage extends StatelessWidget {
                 ),
               );
             },
-            child: Text(
-              "Первое блюдо",
+            child: const Text(
+              "Первые блюда",
               style: TextStyle(fontSize: 20),
             ),
           ),
-          SizedBox(height: 30,),
+          const SizedBox(height: 30,),
         ],
       ),
     );

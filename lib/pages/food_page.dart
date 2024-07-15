@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_meal/pages_in_dev/image_list_page.dart';
 
 import 'dish_page.dart';
 
@@ -44,6 +45,21 @@ class FoodPage extends StatelessWidget {
             },
             child: const Text(
               "Первые блюда",
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          const SizedBox(height: 30,),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ImageListScreen(),
+                ),
+              );
+            },
+            child: const Text(
+              "Image List Page",
               style: TextStyle(fontSize: 20),
             ),
           ),

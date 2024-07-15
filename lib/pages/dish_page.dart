@@ -17,6 +17,9 @@ class _DishPageState extends State {
   final User? user = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  final CollectionReference dishCollectionRef =
+      FirebaseFirestore.instance.collection('dish');
+
 
   // Для хранения данных блюда
   Map? dishData;

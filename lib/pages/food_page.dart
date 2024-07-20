@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:new_meal/pages_in_dev/image_list_page.dart';
+import 'package:new_meal/admin_pages/admin_dishes.dart';
+import 'package:new_meal/pages/image_list_page.dart';
+
 
 import 'dish_page.dart';
 
@@ -54,12 +56,27 @@ class FoodPage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ImageListScreen(),
+                  builder: (context) =>AdminDishesPage(),// ImageListScreen(),
                 ),
               );
             },
             child: const Text(
-              "Image List Page",
+              "Admin Dishes ",
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          const SizedBox(height: 30,),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>ImageListPage(),// ImageListScreen(),
+                ),
+              );
+            },
+            child: const Text(
+              "Image List Page ",
               style: TextStyle(fontSize: 20),
             ),
           ),

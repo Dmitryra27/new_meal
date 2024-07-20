@@ -1,6 +1,11 @@
 {
   "name": "your_project_name",
   "description": "Meal App",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "flutter build web",
+    "test": "flutter test"
+  },
   "dependencies": {
     "firebase": "^10.12.3",
     "firebase-tools": "^13.13.3"

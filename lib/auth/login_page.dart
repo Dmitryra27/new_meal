@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:new_meal/auth/password_change_page.dart';
 import 'package:new_meal/auth/registration_page.dart';
 import 'package:new_meal/pages/food_page.dart';
 
@@ -88,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: const [
                 BoxShadow(
-                  color: Colors.black26,
+                  color: Colors.grey,
                   blurRadius: 10,
                   spreadRadius: 5,
                 ),
@@ -141,12 +142,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: const Text(
                     'Войти',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 16, color: Colors.white, ),
                   ),
                 ),
                 TextButton(
                   onPressed: () {
-                    // Handle forgot password action
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => PasswordChangePage()),
+                    );
                   },
                   child: Text(
                     'Забыли пароль?',

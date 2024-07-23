@@ -85,7 +85,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 const SizedBox(height: 20, width:400),
                 ElevatedButton(
                   onPressed: registerUser,
-                  child: const Text('Register'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                    Theme.of(context).colorScheme.secondaryContainer),
+                  child: const Text('Зарегистрироваться'),
                 ),
               ],
             ),

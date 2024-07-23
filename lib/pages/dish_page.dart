@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class DishPage extends StatefulWidget {
   final String dishId;
   const DishPage({Key? key, required this.dishId}) : super(key: key);
   @override
   _DishPageState createState() => _DishPageState();
 }
+
 class _DishPageState extends State<DishPage> {
   double userRating = 0;
   final List<String> comments = [];
@@ -102,7 +104,7 @@ class _DishPageState extends State<DishPage> {
             Text('Ваш отзыв:', style: TextStyle(fontSize: 18)),
             TextField(
               controller: commentController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Введите комментарий',
                 border: OutlineInputBorder(),
               ),
@@ -150,7 +152,7 @@ class _DishPageState extends State<DishPage> {
                       final doc = commentDocs[index];
                       String review = doc['review'] ?? '';
                       //String reaction = doc.data().containsKey('reaction') ? doc['reaction'] : '';
-                      String reaction = index < reactions.length ? reactions[index] : '';
+                      String reaction = doc['reaction'] ?? '';//index < reactions.length ? reactions[index] : '';
                       return ListTile(
                         title: Text(review),
                         subtitle: Text(reaction),

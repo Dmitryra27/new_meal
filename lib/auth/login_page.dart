@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:new_meal/auth/registration_page.dart';
+import 'package:new_meal/pages/food_page.dart';
 
-import 'profile_page.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   Future<void> _signIn() async {
     try {
       await _auth.signInWithEmailAndPassword(
@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
       );
       // Navigate to the next page upon successful sign in
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ProfilePage()));
+          context, MaterialPageRoute(builder: (context) => FoodPage()));
     } catch (e) {
       // Handle sign in errors
       showDialog(
@@ -53,45 +53,133 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
   }
-
+  /*#3F51B5 - фиолетовый
+  * #E91E63 — насыщенный розовый цвет, который добавит энергии и выразительности.
+#03A9F4 — яркий голубой цвет, который создаст приятный градиент с основным синим цветом.
+#FFEB3B — светлый желтый цвет, который добавит яркости и жизнерадостности.
+#F5F5F5 — светло-серый цвет для фонов, который обеспечит хорошую читаемость и легкость восприятия
+  * */
+  final Color primaryColor = Color(0xFF3F51B5);//Color(0xFF1E88E5);
+  final Color secondaryColor = Color(0xFFF5F5F5);//Color(0xFFFFF176);
+  final Color accentColor = Color(0xFFE91E63);
+  final Color yellowColor = Color(0xFFFFEB3B);
+  final Color whiteBlueColor = Color(0xFF03A9F4);//Color(0xFFAB47BC);
+  final Color textColor = Color(0xFF212121);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: secondaryColor,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Login',
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: TextStyle(color: Colors.white),
         ),
+        backgroundColor: whiteBlueColor,
       ),
       body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(labelText: 'Email'),
-                  )),
-              Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                  )),
-              Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    onPressed: _signIn,
-                    child: Text('Войти'),
-                  )),
-            ],
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            width: MediaQuery.of(context).size.width < 600
+                ? MediaQuery.of(context).size.width * 0.9
+                : 400,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  spreadRadius: 5,
+                ),
+              ],
+            ),
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'Вход в систему',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Пароль',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    prefixIcon: const Icon(Icons.lock),
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _signIn,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: const Text(
+                    'Войти',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Handle forgot password action
+                  },
+                  child: Text(
+                    'Забыли пароль?',
+                    style: TextStyle(color: primaryColor),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+/*
+// Не забудьте создать класс ProfilePage и RegistrationPage
+class ProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Profile Page')),
+      body: Center(child: Text('Welcome to Profile Page!')),
+    );
+  }
+}
+class RegistrationPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Registration Page')),
+      body: Center(child: Text('Welcome to Registration Page!')),
+    );
+  }
+}
+*
+ */

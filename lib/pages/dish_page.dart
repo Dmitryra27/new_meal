@@ -1,174 +1,169 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 class DishPage extends StatefulWidget {
-  final String dishName;
-
-  const DishPage({Key? key, required this.dishName}) : super(key: key);
-
+  final String dishId;
+  const DishPage({Key? key, required this.dishId}) : super(key: key);
   @override
-  State createState() => _DishPageState();
+  _DishPageState createState() => _DishPageState();
 }
-
-class _DishPageState extends State {
-  // Получаем текущего пользователя
-  final User? user = FirebaseAuth.instance.currentUser;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
-  final CollectionReference dishCollectionRef =
-      FirebaseFirestore.instance.collection('dish');
-
-
-  // Для хранения данных блюда
-  Map? dishData;
-
-  // Для хранения изображения
-  String? imageUrl = 'https://firebasestorage.googleapis.com/v0/b/new-meal-7df05.appspot.com/o/borch.jpeg?alt=media&token=768bd158-2526-4fb3-ab77-08f24c9c0095';
-
-  // Для хранения рейтинга
-  double? rating;
-
-   @override
+class _DishPageState extends State<DishPage> {
+  double userRating = 0;
+  final List<String> comments = [];
+  final List<String> reactions = [];
+  final TextEditingController commentController = TextEditingController();
+  String? selectedReaction;
+  Map<String, dynamic>? dish;
+  @override
   void initState() {
     super.initState();
-    _fetchDishData();
   }
-
-  Future _fetchDishData() async {
-    // Получаем данные блюда из Firestore
-    //var dishName;
-    DocumentSnapshot dishDoc = await _firestore
-        .collection('dish')
-        .where('alias', isEqualTo: widget.key)
-        .get()
-        .then((snapshot) => snapshot.docs.first);
-    setState(() {
-      dishData = dishDoc.data() as Map;
-      // Получаем ссылку на изображение из Firebase Storage
-      _getImageUrl(dishData!['image']);
-      //_getImageUrl(dishData!['imageUrl']);
-    });
+  Stream<DocumentSnapshot> fetchDishDetails() {
+    return FirebaseFirestore.instance
+        .collection('dishes')
+        .doc(widget.dishId)
+        .snapshots();
   }
-
-  // Получаем ссылку на изображение из Firebase Storage
-  Future _getImageUrl(String imageName) async {
-    try {
-     // String downloadUrl = await _storage//.ref('${imageUrl}');
-     //     .ref('${imageName}'+'\\?'+'alt'+'\\='+'media'+'\\&'+'token'+'\\='+dishData!['token'])
-      //    .getDownloadURL();
-      setState(() {
-        //imageUrl = {imageUrl} as String?;//downloadUrl;
-        print('imageUrl:$imageUrl');
+  Stream<QuerySnapshot> fetchComments() {
+    return FirebaseFirestore.instance
+        .collection('reviews')
+        .where('dishId', isEqualTo: widget.dishId)
+        .snapshots();
+  }
+  void _submitComment() {
+    if (commentController.text.isNotEmpty && selectedReaction != null) {
+      FirebaseFirestore.instance.collection('reviews').add({
+        'dishId': widget.dishId,
+        'review': commentController.text,
+        'reaction': selectedReaction,
+        'userId': FirebaseAuth.instance.currentUser?.uid,
+        'timestamp': FieldValue.serverTimestamp(),
       });
-    } catch (e) {
-      print('Ошибка при получении изображения: $e');
+      commentController.clear();
+      setState(() {
+        comments.add(commentController.text);
+        reactions.add(selectedReaction!);
+        selectedReaction = null;
+      });
     }
   }
-
-  // Обновляем рейтинг
-  Future _updateRating(double newRating) async {
-    // Обновляем рейтинг в Firestore
-    await _firestore
-        .collection('dish')
-        .doc(dishData!['id'])
-        .update({'stars': newRating});
-    setState(() {
-      rating = newRating;
-    });
-  }
-
-  // Добавляем оценку или эмодзи в коллекцию mark
-  Future _addMark(String mark) async {
-    await _firestore.collection('mark').add({
-      'dishId': dishData!['id'],
-      'userId': user!.uid,
-      'mark': mark,
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Блюдо: ${widget.key}',
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.white70,
-              fontFamily: "SF Pro Display",
-            ),
-          ),
+      appBar: AppBar(
+        title: StreamBuilder<DocumentSnapshot>(
+          stream: fetchDishDetails(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Text('Загрузка...');
+            }
+            if (!snapshot.hasData) {
+              return const Text('Ошибка загрузки');
+            }
+            dish = snapshot.data!.data() as Map<String, dynamic>?;
+            return Text(dish?['name'] ?? 'Блюдо');
+          },
         ),
-        body: dishData != null
-            ? SingleChildScrollView(
-          child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Выводим изображение
-                    imageUrl != null
-                        ? Image.network(imageUrl!)
-                        : const CircularProgressIndicator(),
-                    const SizedBox(height: 16.0),
-                    // Выводим информацию о блюде
-                    Card(
-                        child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    dishData!['name'],
-                                    style: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  Text(
-                                    'Ингредиенты: ${dishData!['ingredients']}',
-                                    style: const TextStyle(fontSize: 16.0),
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  Text(
-                                    'Рецепт: ${dishData!['receipt']}',
-                                    style: const TextStyle(fontSize: 16.0),
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  // Выводим рейтинг
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.star),
-                                      Text(
-                                        '${dishData!['stars']}',
-                                        style: const TextStyle(fontSize: 16.0),
-                                      ),
-                                      const SizedBox(height: 8.0),
-                                    ],
-                                  ),
-                                  //if dishData != null else Container(),
-                                ]
-                            )
-                        )
-                    ),
-                    const Divider(),
-                    ElevatedButton(
-                        onPressed: () => Navigator.pop<bool>(context, true),
-                        child: const Text("Назад"),
-                        style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.resolveWith((
-                                states) => Colors.red[300]))),
-                  ]
-              )
-          ),
-        )
-        : const Center(child: CircularProgressIndicator())
-
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+    child: new SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            StreamBuilder<DocumentSnapshot>(
+              stream: fetchDishDetails(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData) {
+                  return const Center(child: Text('Ошибка загрузки блюда'));
+                }
+                dish = snapshot.data!.data() as Map<String, dynamic>?;
+                return Flexible(
+                  child: Image.network(
+                    dish!['imageUrl'],
+                    fit: BoxFit.cover,
+                    width: 400,
+                    height: 400, // Ограничение высоты до 600 px
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: 10),
+            Text(
+              dish?['name'] ?? '',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(dish?['receipt'] ?? ''),
+            SizedBox(height: 20),
+            Text('Ваш отзыв:', style: TextStyle(fontSize: 18)),
+            TextField(
+              controller: commentController,
+              decoration: InputDecoration(
+                labelText: 'Введите комментарий',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 10),
+            DropdownButton<String>(
+              hint: Text('Выберите реакцию'),
+              value: selectedReaction,
+              items: ['❤️', '👍', '😋', '😢', '🤢']
+                  .map((reaction) => DropdownMenuItem(
+                value: reaction,
+                child: Text(reaction),
+              ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedReaction = value;
+                });
+              },
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _submitComment,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+              ),
+              child: Text('Отправить комментарий'),
+            ),
+            SizedBox(height: 20),
+            Text('Комментарии:', style: TextStyle(fontSize: 18)),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: fetchComments(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData) {
+                    return const Center(child: Text('Ошибка загрузки комментариев'));
+                  }
+                  final commentDocs = snapshot.data!.docs;
+                  return ListView.builder(
+                    itemCount: commentDocs.length,
+                    itemBuilder: (context, index) {
+                      final doc = commentDocs[index];
+                      String review = doc['review'] ?? '';
+                      //String reaction = doc.data().containsKey('reaction') ? doc['reaction'] : '';
+                      String reaction = index < reactions.length ? reactions[index] : '';
+                      return ListTile(
+                        title: Text(review),
+                        subtitle: Text(reaction),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      )
     );
-
   }
 }
-

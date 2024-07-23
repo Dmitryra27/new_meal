@@ -24,10 +24,24 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF3949AB), // Primary color - заголовок страниц
+          primary : const Color(0xFF3F51B5),//Color(0xFF1E88E5);
+          secondary : const Color(0xFFF5F5F5),//Color(0xFFFFF176);
+          surface: Color(0xFFFFFFFF),
+          background: Color(0xFFEEEEEE),
+          onPrimary:  Color(0xFFFFFFDE),
+          onSecondary:   Color(0xFF000000),
+          onError:    Color(0xFF000000),
+          onSurface:     Color(0xFF000000),
+          outline:        Color(0xFF000000),
+          shadow:         Color(0xFF000000),
+          inverseSurface: Color(0xFF000000),
+          error: Color(0xFFB00020),
+          primaryContainer: Color(0xFFBBDEFB),
+          secondaryContainer: Color(0xFF90CAF9),
+          tertiaryContainer: Color(0xFF7CB342),
+          onSecondaryFixed: const Color(0xFFCFD8DC),//для кнопок
           brightness: Brightness.light,
-          primary: Colors.blue,
-          secondary: Colors.green,
-          error: Colors.red,
+
         ),
         // Дополнительные стили
         appBarTheme: const AppBarTheme(
@@ -35,7 +49,7 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFFFBC02D), // Yellow color
+            backgroundColor: Theme.of(context).colorScheme.secondary, // Использование вторичного цвета из ColorScheme
           ),
         ),
       ),

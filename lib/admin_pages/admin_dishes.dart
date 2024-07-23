@@ -31,7 +31,8 @@ class _DishRegistrationPageState extends State<DishRegistrationPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _receiptController = TextEditingController();
   final TextEditingController _ingredientsController = TextEditingController();
-  double? _stars;
+  final TextEditingController _descriptionsController = TextEditingController();
+  //double? _stars;
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -70,13 +71,13 @@ class _DishRegistrationPageState extends State<DishRegistrationPage> {
           'receipt': _receiptController.text,
           'image': _imageUrl,
           'ingredients': _ingredientsController.text,
-          'stars': _stars,
+          'descriptions': _descriptionsController.text,
         });
         setState(() {
           _nameController.clear();
           _receiptController.clear();
           _ingredientsController.clear();
-          _stars = null;
+          _descriptionsController.clear();
           _imageUrl = null;
         });
       } catch (e) {
@@ -94,23 +95,21 @@ class _DishRegistrationPageState extends State<DishRegistrationPage> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: InputDecoration(labelText: 'Название'),
+            ),
+            TextField(
+              controller: _descriptionsController,
+              decoration: InputDecoration(labelText: 'Описание'),
             ),
             TextField(
               controller: _receiptController,
-              decoration: InputDecoration(labelText: 'Receipt'),
+              decoration: InputDecoration(labelText: 'Рецепт'),
             ),
             TextField(
               controller: _ingredientsController,
               decoration: InputDecoration(labelText: 'Ingredients'),
             ),
-            TextField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Stars (0-5)'),
-              onChanged: (value) {
-                _stars = double.tryParse(value);
-              },
-            ),
+
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _pickImage,
@@ -140,13 +139,13 @@ class _DishRegistrationPageState extends State<DishRegistrationPage> {
                         title: Text(dish['name']),
                         subtitle: Row(
                           children: [
-                            Text('Ingredients: ${dish['ingredients']}'),
-                            SizedBox(width: 10), // Отступ между текстом и изображением
+                            Text(' ${dish['descriptions']}'),
+                            SizedBox(width: 20), // Отступ между текстом и изображением
                             if (dish['image'] != null)
                               Image.network(dish['image'], height: 150, width: 150), // Изображение из Firestore
                           ],
                         ),
-                        trailing: Text('Stars: ${dish['stars']}'),
+
                       );
                     },
                   );

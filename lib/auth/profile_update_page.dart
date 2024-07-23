@@ -15,9 +15,9 @@ class ProfileUpdatePage extends StatefulWidget {
 class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
   final user = FirebaseAuth.instance.currentUser;
   final _formKey = GlobalKey<FormState>();
-  String _name = '22';
-  String _email = '22@22.22';
-  String _phoneNumber = '222222';
+  String _name = '';
+  String _email = '';
+  String _phoneNumber = '';
 
 
   @override
@@ -48,10 +48,10 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
         _formKey.currentState?.save();
         final docRef =
             FirebaseFirestore.instance.collection('users').doc(user!.uid);
-        print('docRef:$docRef');
-        print('name:$_name');
-        print('email:$_email');
-        print('phoneNumber:$_phoneNumber');
+        //print('docRef:$docRef');
+        //print('name:$_name');
+        //print('email:$_email');
+        //print('phoneNumber:$_phoneNumber');
         await docRef.set({
           'name': _name,
           'email': _email,
@@ -122,6 +122,9 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                     const SizedBox(height: 24),
                     ElevatedButton(
                       onPressed: _updateUserData,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                      ),
                       child: const Text('Обновить профиль'),
                     ),
                     const SizedBox(height: 24),
@@ -135,6 +138,9 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                           ),
                         );
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                      ),
                       child: const Text('Посмотреть обновленный профиль '),
                     ),
                     const SizedBox(height: 24),
@@ -144,10 +150,13 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const FoodPage(),
+                            builder: (context) => FoodPage(),
                           ),
                         );
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.secondary,
+                      ),
                       child: const Text('Перейти На страницу Блюд'),
                     ),
                     const SizedBox(height: 24),

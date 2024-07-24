@@ -106,6 +106,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       );
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary
+                  ),
                     child: const Text('Изменить данные пользователя'),
                   ),
                   const SizedBox(height: 24),
@@ -115,10 +118,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const FoodPage(), // Замените SecondPage на имя вашей целевой страницы
+                          builder: (context) => FoodPage(), // Замените SecondPage на имя вашей целевой страницы
                         ),
                       );
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary, // Использование вторичного цвета из ColorScheme
+                    ),
                     child: const Text('Перейти На страницу Блюд'),
                   ),
                   const SizedBox(height: 24),

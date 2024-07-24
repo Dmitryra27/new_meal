@@ -50,4 +50,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'new-meal-7df05.appspot.com',
     measurementId: 'G-8W0LZQQ0YT',
   );
+
 }

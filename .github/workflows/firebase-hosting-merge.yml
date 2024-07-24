@@ -29,7 +29,7 @@ jobs:
       # Деплой на Firebase Hosting
       - name: Деплой на Firebase Hosting
         run: npx firebase-tools@latest deploy --only hosting --project new-meal-7df05 --json
-        uses: FirebaseExtended/action-hosting-deploy@v0
+        #uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_NEW_MEAL_7DF05 }}
@@ -37,6 +37,6 @@ jobs:
           projectId: new-meal-7df05
           # Укажите путь к вашему сгенерированному приложению, если необходимо
           # Например, если ваше приложение собирается в папку `build/web`, добавьте:
-          #target: build/web  # Убедитесь, что путь соответствует вашей конфигурации
+          target: build/web  # Убедитесь, что путь соответствует вашей конфигурации
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks

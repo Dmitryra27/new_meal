@@ -113,8 +113,9 @@ class _DishPageState extends State<DishPage> {
             DropdownButton<String>(
               hint: Text('Выберите реакцию'),
               value: selectedReaction,
-              items: ['❤️', '👍', '😋', '😢', '🤢']
-                  .map((reaction) => DropdownMenuItem(
+              items: const ['❤️', '👍', '😋', '😢', '🤢', '🎉', '🎈', '🌟', '🔥', '🌈']
+
+                .map((reaction) => DropdownMenuItem(
                 value: reaction,
                 child: Text(reaction),
               ))

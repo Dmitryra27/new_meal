@@ -12,12 +12,29 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
+      # Шаг 1: Проверка кода
       - uses: actions/checkout@v4
-      - run: n
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      # Шаг 2: Установка Flutter
+      - name: Установка Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.3'  # Убедитесь, что версия соответствует вашей
+      # Шаг 3: Установка зависимостей
+      - name: Установка зависимостей
+        run: flutter pub get
+      # Шаг 4: Сборка приложения
+      - name: Построение приложения
+        run: flutter build web  # Замените на нужную команду, если это не веб-приложение
+      # Шаг 5: Деплой на Firebase Hosting
+      - name: Деплой на Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_NEW_MEAL_7DF05 }}
           projectId: new-meal-7df05
+          target: build/web  # Убедитесь, что путь соответствует вашей конфигурации
         env:
-          FIREBASE_CLI_EXPERIMENTS: webframeworks
+          FIREBASE_CLI_EXPERIMENTS: webframeworks  # Это может быть необходимо для некоторых функций
+      # Шаг 6: Очистка (опционально)
+      - name: Очистка
+        run: flutter clean

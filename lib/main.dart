@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
           onSecondaryFixed: const Color(0xFFCFD8DC),//для кнопок
           brightness: Brightness.light,
 
+
         ),
         // Дополнительные стили
         appBarTheme: const AppBarTheme(
